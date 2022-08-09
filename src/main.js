@@ -113,7 +113,7 @@ function renderFolderView() {
 
   folderViewer
     .get(getUrlHash())
-    .reduce(createTableFiles, [createElement("div")])
+    .reduce(createTableFiles, [createTable()])
     .forEach((el) => main.appendChild(el))
 }
 
@@ -121,9 +121,26 @@ function isFolder(el) {
   return el.type === "folder"
 }
 
+function createTable() {
+  const th = ["Name", "Date Modified", "File Size"].map((heading) =>
+    createElement("th", heading)
+  )
+  const tr = createElement("tr", "", {}, [...th])
+  const table = createElement("table", "", { class: "table" }, [tr])
+  return table
+}
+
 function createTableFiles([accum], el) {
-  const div = createElement("div", el.name)
-  accum.appendChild(div)
+  const headers = ["name", "modified", "size"]
+  const td = headers.map((type) => {
+    const a = createElement("a", el[type], {
+      href: `/#/${el.path}`
+    })
+    return createElement("td", "", {}, [a])
+  })
+
+  const tr = createElement("tr", "", {}, [...td])
+  accum.appendChild(tr)
   return [accum]
 }
 

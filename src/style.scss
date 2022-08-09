@@ -51,3 +51,37 @@ a[aria-expanded="false"] {
 ul {
   list-style-type: none;
 }
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-radius: 4px;
+  font-size: 0.9em;
+  border: none;
+  border-spacing: 0;
+  box-shadow: 0 0 0 1px #e6e8f0;
+  color: var(--text);
+  th {
+    text-align: left;
+    border-bottom: 1px solid #e6e8f0;
+    background: #f9fafc;
+    font-size: 0.9em;
+    padding: 1em 1em;
+  }
+  td,
+  th {
+    border-bottom: 1px solid #e6e8f0;
+  }
+  tr:hover {
+    background: #f9fafc;
+  }
+  a {
+    display: flex;
+    padding: 1em 1em;
+    text-decoration: none;
+    align-items: center;
+    gap: 0.5em;
+    color: var(--text);
+  }
+}
