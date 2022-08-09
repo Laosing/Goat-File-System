@@ -1,6 +1,9 @@
 :root {
   --text: #474d66;
   --gray-light: #f3f3f3;
+  --gray-lighter: #e9e9e9;
+  --gray-medium: #cecece;
+  --gray-dark: #333;
   --font: sans-serif;
 }
 
@@ -50,6 +53,29 @@ a[aria-expanded="false"] {
 
 ul {
   list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.icon {
+  margin-right: 0.5em;
+  font-size: 1em;
+}
+
+.menu__link {
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.8em;
+  &:hover {
+    background-color: var(--gray-lighter);
+  }
+  + ul {
+    margin-left: 1.2em;
+    border-left: 1px solid var(--gray-medium);
+  }
 }
 
 .table {

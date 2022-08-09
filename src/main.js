@@ -66,6 +66,7 @@ function createSidebarView(tree, parentNode, parentPath = []) {
         el.name,
         {
           href: `/#/${path}`,
+          class: "menu__link",
           "aria-expanded":
             getUrlHash().split("/").includes(el.name) || getUrlHash() === path
         },
