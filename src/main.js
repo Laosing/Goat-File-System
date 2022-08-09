@@ -3,6 +3,11 @@ import "./style.scss"
 import tree from "./tree.json"
 
 const sidebar = document.getElementById("sidebar")
+const app = document.getElementById("app")
+
+function getUrlHash() {
+  return window.location.hash.split("#/").at(1) || ""
+}
 
 function createElement(
   tag = "div",
@@ -19,14 +24,30 @@ function createElement(
   return el
 }
 
-function createSidebarView(tree, parentNode) {
+function createSidebarView(tree, parentNode, parentPath = []) {
   tree
     .filter(isFolder)
     .map((el) => {
       const hasChildren = el.children.length > 0 && el.children.some(isFolder)
-      const link = createElement("a", el.name)
+      const path = [...parentPath, el.name].join("/")
+
+      const dropdown =
+        hasChildren && createElement("span", "▼", { class: "icon" })
+
+      const link = createElement(
+        "a",
+        el.name,
+        {
+          href: `/#/${path}`,
+          "aria-expanded":
+            getUrlHash().split("/").includes(el.name) || getUrlHash() === path
+        },
+        [],
+        [dropdown]
+      )
       const ul =
-        hasChildren && createSidebarView(el.children, createElement("ul"))
+        hasChildren &&
+        createSidebarView(el.children, createElement("ul"), [path])
       const li = createElement("li", "", {}, [link, ul])
 
       return li
@@ -38,6 +59,17 @@ function createSidebarView(tree, parentNode) {
   return parentNode
 }
 
+app.addEventListener("click", addClickEvents)
+
+function addClickEvents(e) {
+  const dropdown = e.target.closest(".icon")
+  if (dropdown) {
+    toggleFolder(e.target.parentNode)
+    e.preventDefault()
+    e.stopPropagation()
+  }
+}
+
 renderSidebarView()
 
 function renderSidebarView() {
@@ -47,4 +79,20 @@ function renderSidebarView() {
 
 function isFolder(el) {
   return el.type === "folder"
+}
+
+const isFolderExpanded = (el) => {
+  return el.getAttribute("aria-expanded") === "true"
+}
+
+function openFolder(el) {
+  el.setAttribute("aria-expanded", true)
+}
+
+function closeFolder(el) {
+  el.setAttribute("aria-expanded", false)
+}
+
+function toggleFolder(el) {
+  isFolderExpanded(el) ? closeFolder(el) : openFolder(el)
 }
