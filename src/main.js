@@ -71,7 +71,7 @@ function createSidebarView(tree, parentNode, parentPath = []) {
         el.name,
         {
           href: `/#/${path}`,
-          class: "menu__link",
+          class: clsx("menu__link", getUrlHash() === path && "active"),
           role: "treeitem",
           ...linkAttributes
         },
@@ -125,7 +125,20 @@ function addKeyboardEvents(e) {
   }
 }
 
+function updateActiveMenu() {
+  sidebar
+    .querySelectorAll(".menu__link")
+    .forEach((el) => el.classList.remove("active"))
+
+  const el = sidebar.querySelector(`[href='/#/${getUrlHash()}'`)
+  if (el) {
+    el.classList.add("active")
+    openFolder(el.closest(".menu__link"))
+  }
+}
+
 window.addEventListener("hashchange", () => {
+  updateActiveMenu()
   renderFolderView()
 })
 renderFolderView()
@@ -175,6 +188,10 @@ function createTableFiles([accum], el) {
   const tr = createElement("tr", "", {}, [...td])
   accum.appendChild(tr)
   return [accum]
+}
+
+function clsx(...classes) {
+  return [...classes].filter(Boolean).join(" ")
 }
 
 const isFolderExpanded = (el) => {

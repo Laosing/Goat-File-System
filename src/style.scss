@@ -80,6 +80,9 @@ ul {
     margin-left: 1.2em;
     border-left: 1px solid var(--gray-medium);
   }
+  &.active {
+    font-weight: bold;
+  }
 }
 
 .table {
