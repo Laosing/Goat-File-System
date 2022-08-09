@@ -24,6 +24,33 @@ function createElement(
   return el
 }
 
+const folderViewer = createFolderView(tree)
+console.log(folderViewer)
+
+function buildFolderPaths(tree, parentPath = "") {
+  return tree.map((el) => ({
+    ...el,
+    path: parentPath ? [parentPath, el.name].join("/") : el.name
+  }))
+}
+
+function createFolderView(tree, parentPath = [], dictionary) {
+  const routes = dictionary || new Map([["", buildFolderPaths(tree)]])
+
+  tree.filter(isFolder).forEach((el) => {
+    const path = [...parentPath, el.name].join("/")
+    const children = buildFolderPaths(el.children, path)
+
+    routes.set(path, children)
+
+    if (el.children.length) {
+      createFolderView(el.children, [path], routes)
+    }
+  })
+
+  return routes
+}
+
 function createSidebarView(tree, parentNode, parentPath = []) {
   tree
     .filter(isFolder)
