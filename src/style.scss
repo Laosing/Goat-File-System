@@ -51,6 +51,10 @@ a[aria-expanded="false"] {
   }
 }
 
+a[disabled="true"] {
+  pointer-events: none;
+}
+
 ul {
   list-style-type: none;
   padding: 0;

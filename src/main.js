@@ -61,22 +61,35 @@ function createSidebarView(tree, parentNode, parentPath = []) {
       const dropdown =
         hasChildren && createElement("span", "▼", { class: "icon" })
 
+      const linkAttributes = hasChildren && {
+        "aria-owns": path,
+        "aria-expanded":
+          getUrlHash().split("/").includes(el.name) || getUrlHash() === path
+      }
       const link = createElement(
         "a",
         el.name,
         {
           href: `/#/${path}`,
           class: "menu__link",
-          "aria-expanded":
-            getUrlHash().split("/").includes(el.name) || getUrlHash() === path
+          role: "treeitem",
+          ...linkAttributes
         },
         [],
         [dropdown]
       )
+
       const ul =
         hasChildren &&
-        createSidebarView(el.children, createElement("ul"), [path])
-      const li = createElement("li", "", {}, [link, ul])
+        createSidebarView(
+          el.children,
+          createElement("ul", "", {
+            id: path,
+            role: "group"
+          }),
+          [path]
+        )
+      const li = createElement("li", "", { role: "none" }, [link, ul])
 
       return li
     })
@@ -88,6 +101,7 @@ function createSidebarView(tree, parentNode, parentPath = []) {
 }
 
 app.addEventListener("click", addClickEvents)
+app.addEventListener("keydown", addKeyboardEvents)
 
 function addClickEvents(e) {
   const dropdown = e.target.closest(".icon")
@@ -98,6 +112,19 @@ function addClickEvents(e) {
   }
 }
 
+function addKeyboardEvents(e) {
+  switch (e.key) {
+    case "ArrowLeft":
+      closeFolder(e.target)
+      break
+    case "ArrowRight":
+      openFolder(e.target)
+      break
+    default:
+      break
+  }
+}
+
 window.addEventListener("hashchange", () => {
   renderFolderView()
 })
@@ -105,7 +132,10 @@ renderFolderView()
 renderSidebarView()
 
 function renderSidebarView() {
-  const items = createSidebarView(tree, createElement("ul"))
+  const items = createSidebarView(
+    tree,
+    createElement("ul", "", { role: "tree" })
+  )
   sidebar.appendChild(items)
 }
 
@@ -133,9 +163,11 @@ function createTable() {
 
 function createTableFiles([accum], el) {
   const headers = ["name", "modified", "size"]
-  const td = headers.map((type) => {
+  const td = headers.map((type, ind) => {
     const a = createElement("a", el[type], {
-      href: `/#/${el.path}`
+      href: `/#/${el.path}`,
+      tabindex: isFolder(el) ? (ind === 0 ? 0 : -1) : -1,
+      disabled: isFolder(el) === false
     })
     return createElement("td", "", {}, [a])
   })
