@@ -4,6 +4,7 @@ import tree from "./tree.json"
 
 const sidebar = document.getElementById("sidebar")
 const app = document.getElementById("app")
+const main = document.getElementById("main")
 
 function getUrlHash() {
   return window.location.hash.split("#/").at(1) || ""
@@ -25,7 +26,6 @@ function createElement(
 }
 
 const folderViewer = createFolderView(tree)
-console.log(folderViewer)
 
 function buildFolderPaths(tree, parentPath = "") {
   return tree.map((el) => ({
@@ -97,6 +97,10 @@ function addClickEvents(e) {
   }
 }
 
+window.addEventListener("hashchange", () => {
+  renderFolderView()
+})
+renderFolderView()
 renderSidebarView()
 
 function renderSidebarView() {
@@ -104,8 +108,23 @@ function renderSidebarView() {
   sidebar.appendChild(items)
 }
 
+function renderFolderView() {
+  main.replaceChildren()
+
+  folderViewer
+    .get(getUrlHash())
+    .reduce(createTableFiles, [createElement("div")])
+    .forEach((el) => main.appendChild(el))
+}
+
 function isFolder(el) {
   return el.type === "folder"
+}
+
+function createTableFiles([accum], el) {
+  const div = createElement("div", el.name)
+  accum.appendChild(div)
+  return [accum]
 }
 
 const isFolderExpanded = (el) => {
