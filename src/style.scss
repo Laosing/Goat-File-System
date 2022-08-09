@@ -1,0 +1,39 @@
+:root {
+  --text: #474d66;
+  --gray-light: #f3f3f3;
+  --font: sans-serif;
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 236px 1fr;
+  height: 100%;
+  overflow: hidden;
+}
+
+#sidebar,
+#main {
+  padding: 2.5em 1.5em;
+  overflow: auto;
+  align-items: start;
+}
+
+#sidebar {
+  background-color: var(--gray-light);
+}
