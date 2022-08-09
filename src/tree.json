@@ -1,0 +1,100 @@
+[
+  {
+    "type": "folder",
+    "name": "Files",
+    "modified": 1660018217506,
+    "size": 50000000,
+    "children": [
+      {
+        "type": "folder",
+        "name": "Documents",
+        "modified": 1660018217506,
+        "size": 25000000,
+        "children": [
+          {
+            "type": "folder",
+            "name": "Books",
+            "modified": 1660018217506,
+            "size": 0,
+            "children": []
+          },
+          {
+            "type": "folder",
+            "name": "Secrets",
+            "modified": 1660018217506,
+            "size": 0,
+            "children": [
+              {
+                "type": "file",
+                "name": "Goats.png",
+                "modified": 1660018217506,
+                "size": 0
+              },
+              {
+                "type": "file",
+                "name": "Rams.jpg",
+                "modified": 1660018217506,
+                "size": 0
+              }
+            ]
+          },
+          {
+            "type": "file",
+            "name": "text.txt",
+            "modified": 1660018217506,
+            "size": 0
+          }
+        ]
+      },
+      {
+        "type": "folder",
+        "name": "Images",
+        "modified": 1660018217506,
+        "size": 0,
+        "children": []
+      },
+      {
+        "type": "folder",
+        "name": "System",
+        "modified": 1660018217506,
+        "size": 0,
+        "children": []
+      },
+      {
+        "type": "file",
+        "name": "Description.rtf",
+        "modified": 1660018217506,
+        "size": 1024
+      },
+      {
+        "type": "file",
+        "name": "Description.txt",
+        "modified": 1660018217506,
+        "size": 2048
+      }
+    ]
+  },
+  {
+    "type": "folder",
+    "name": "Test",
+    "modified": 1660018217506,
+    "size": 0,
+    "children": [
+      {
+        "type": "folder",
+        "name": "Test2",
+        "modified": 1660018217506,
+        "size": 0,
+        "children": [
+          {
+            "type": "folder",
+            "name": "Test3",
+            "modified": 1660018217506,
+            "size": 0,
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]
