@@ -13,7 +13,7 @@ const app = document.getElementById("app")
 const main = document.getElementById("main")
 
 function getUrlHash() {
-  return window.location.hash.split("#/").at(1) || ""
+  return window.location.hash.split("#/").at(1)?.split("?").at(0) || ""
 }
 
 function createElement(
