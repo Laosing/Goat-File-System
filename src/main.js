@@ -65,6 +65,7 @@ function createSidebarView(tree, parentNode, parentPath = []) {
 
       const dropdown =
         hasChildren && createElement("span", "▼", { class: "icon" })
+      const icon = createSvgElement(iconFolder)
 
       const linkAttributes = hasChildren && {
         "aria-owns": path,
@@ -81,7 +82,7 @@ function createSidebarView(tree, parentNode, parentPath = []) {
           ...linkAttributes
         },
         [],
-        [dropdown]
+        [icon, dropdown]
       )
 
       const ul =
@@ -177,7 +178,7 @@ function getFileType(el) {
 }
 
 function getIcon(type) {
-  let svg = "file"
+  let svg
   switch (type) {
     case "png":
     case "jpg":
