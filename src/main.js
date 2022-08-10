@@ -1,7 +1,5 @@
 import "./style.scss"
 
-import tree from "./tree.json"
-
 import {
   addClickEvents,
   addKeyboardEvents,
@@ -10,17 +8,22 @@ import {
 } from "./sidebar"
 import { renderFolderView } from "./table"
 
-const sidebar = document.getElementById("sidebar")
-const app = document.getElementById("app")
-const main = document.getElementById("main")
+fetch("/api/v1/goat")
+  .then((res) => res.json())
+  .then(renderApp)
 
-app.addEventListener("click", addClickEvents)
-app.addEventListener("keydown", addKeyboardEvents)
+function renderApp(tree) {
+  const sidebar = document.getElementById("sidebar")
+  const main = document.getElementById("main")
 
-window.addEventListener("hashchange", () => {
-  updateActiveMenu(sidebar)
+  sidebar.addEventListener("click", addClickEvents)
+  sidebar.addEventListener("keydown", addKeyboardEvents)
+
   renderFolderView(main, tree)
-})
+  renderSidebarView(sidebar, tree)
 
-renderFolderView(main, tree)
-renderSidebarView(sidebar, tree)
+  window.addEventListener("hashchange", () => {
+    updateActiveMenu(sidebar)
+    renderFolderView(main, tree)
+  })
+}
