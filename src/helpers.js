@@ -3,8 +3,8 @@ import iconImage from "./images/icon-image.svg?raw"
 import iconText from "./images/icon-text.svg?raw"
 import iconFile from "./images/icon-file.svg?raw"
 
-export function getUrlHash() {
-  return window.location.hash.split("#/").at(1)?.split("?").at(0) || ""
+export function getUrlHash(url) {
+  return (url || window.location.hash).split("#/").at(1)?.split("?").at(0) || ""
 }
 
 export function createElement(
@@ -100,7 +100,7 @@ export function formatDate(str) {
 /**
  * Formats bytes into a more readable form
  * taken from: https://stackoverflow.com/questions/15900485/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-in-javascript
- * @param {number} bytes
+ * @param {number} bytes in binary
  * @param {number} decimals
  * @returns string
  */
