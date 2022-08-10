@@ -65,7 +65,7 @@ a[aria-expanded="false"] {
   }
 }
 
-a[disabled="true"] {
+.disabled {
   pointer-events: none;
 }
 

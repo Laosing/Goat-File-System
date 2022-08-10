@@ -1,4 +1,5 @@
 import {
+  clsx,
   createElement,
   createSvgElement,
   formatTableItem,
@@ -41,8 +42,10 @@ function createTableFiles([accum], el) {
       formatTableItem(el, type),
       {
         href: `/#/${el.path}`,
-        tabindex: isFolder(el) ? (ind === 0 ? 0 : -1) : -1,
-        disabled: isFolder(el) === false
+        ...(((isFolder(el) && ind !== 0) || isFolder(el) === false) && {
+          tabindex: -1
+        }),
+        class: clsx(isFolder(el) === false && "disabled")
       },
       [],
       [ind === 0 && icon]
