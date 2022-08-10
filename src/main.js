@@ -2,6 +2,11 @@ import "./style.scss"
 
 import tree from "./tree.json"
 
+import iconFolder from "./images/icon-folder.svg?raw"
+import iconImage from "./images/icon-image.svg?raw"
+import iconText from "./images/icon-text.svg?raw"
+import iconFile from "./images/icon-file.svg?raw"
+
 const sidebar = document.getElementById("sidebar")
 const app = document.getElementById("app")
 const main = document.getElementById("main")
@@ -161,6 +166,42 @@ function renderFolderView() {
     .forEach((el) => main.appendChild(el))
 }
 
+function createSvgElement(svgString = "", attributes = {}) {
+  const svg = document.createRange().createContextualFragment(svgString)
+  Object.entries(attributes).forEach(([key, val]) => svg.setAttribute(key, val))
+  return svg
+}
+
+function getFileType(el) {
+  return isFolder(el) ? "folder" : el.name.split(".").at(1)
+}
+
+function getIcon(type) {
+  let svg = "file"
+  switch (type) {
+    case "png":
+    case "jpg":
+    case "jpeg":
+      svg = iconImage
+      break
+
+    case "txt":
+    case "json":
+      svg = iconText
+      break
+
+    case "folder":
+      svg = iconFolder
+      break
+
+    default:
+      svg = iconFile
+      break
+  }
+
+  return createSvgElement(svg)
+}
+
 function isFolder(el) {
   return el.type === "folder"
 }
@@ -175,13 +216,20 @@ function createTable() {
 }
 
 function createTableFiles([accum], el) {
+  const icon = getIcon(getFileType(el))
   const headers = ["name", "modified", "size"]
   const td = headers.map((type, ind) => {
-    const a = createElement("a", el[type], {
-      href: `/#/${el.path}`,
-      tabindex: isFolder(el) ? (ind === 0 ? 0 : -1) : -1,
-      disabled: isFolder(el) === false
-    })
+    const a = createElement(
+      "a",
+      el[type],
+      {
+        href: `/#/${el.path}`,
+        tabindex: isFolder(el) ? (ind === 0 ? 0 : -1) : -1,
+        disabled: isFolder(el) === false
+      },
+      [],
+      [ind === 0 && icon]
+    )
     return createElement("td", "", {}, [a])
   })
 
