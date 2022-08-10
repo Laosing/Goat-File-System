@@ -248,7 +248,7 @@ function createTableFiles([accum], el) {
   const td = headers.map((type, ind) => {
     const a = createElement(
       "a",
-      el[type],
+      formatTableItem(el, type),
       {
         href: `/#/${el.path}`,
         tabindex: isFolder(el) ? (ind === 0 ? 0 : -1) : -1,
@@ -263,6 +263,17 @@ function createTableFiles([accum], el) {
   const tr = createElement("tr", "", {}, [...td])
   accum.appendChild(tr)
   return [accum]
+}
+
+function formatTableItem(el, type) {
+  switch (type) {
+    case "modified":
+      return formatDate(el[type])
+    case "size":
+      return formatBytes(el[type])
+    default:
+      return el[type]
+  }
 }
 
 function clsx(...classes) {
@@ -283,4 +294,27 @@ function closeFolder(el) {
 
 function toggleFolder(el) {
   isFolderExpanded(el) ? closeFolder(el) : openFolder(el)
+}
+
+function formatDate(str) {
+  return new Date(str).toLocaleDateString("en-US")
+}
+
+/**
+ * Formats bytes into a more readable form
+ * taken from: https://stackoverflow.com/questions/15900485/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-in-javascript
+ * @param {number} bytes
+ * @param {number} decimals
+ * @returns string
+ */
+function formatBytes(bytes, decimals = 2) {
+  if (bytes === 0) return "0 Bytes"
+
+  const k = 1024
+  const dm = decimals < 0 ? 0 : decimals
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i]
 }
