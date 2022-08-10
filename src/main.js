@@ -6,6 +6,7 @@ import iconFolder from "./images/icon-folder.svg?raw"
 import iconImage from "./images/icon-image.svg?raw"
 import iconText from "./images/icon-text.svg?raw"
 import iconFile from "./images/icon-file.svg?raw"
+import iconLost from "./images/icon-lost.svg?raw"
 
 const sidebar = document.getElementById("sidebar")
 const app = document.getElementById("app")
@@ -161,10 +162,35 @@ function renderSidebarView() {
 function renderFolderView() {
   main.replaceChildren()
 
-  folderViewer
-    .get(getUrlHash())
-    .reduce(createTableFiles, [createTable()])
-    .forEach((el) => main.appendChild(el))
+  const items = folderViewer.get(getUrlHash()) || []
+
+  if (items.length) {
+    items
+      .reduce(createTableFiles, [createTable()])
+      .forEach((el) => main.appendChild(el))
+  } else {
+    main.appendChild(createEmptyFolder())
+  }
+}
+
+function createEmptyFolder() {
+  const h1 = createElement("h1", "You found a goat!")
+  const p = createElement(
+    "p",
+    "If it wasn't what you were looking for try another folder!"
+  )
+  const icon = createSvgElement(iconLost)
+  const back = createElement("button", "Go back", { class: "button go-back" })
+
+  back.addEventListener("click", () => window.history.back())
+
+  const folder = createElement("div", "", { class: "folder-empty" }, [
+    icon,
+    h1,
+    p,
+    back
+  ])
+  return folder
 }
 
 function createSvgElement(svgString = "", attributes = {}) {
