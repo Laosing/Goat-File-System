@@ -6,6 +6,7 @@ import {
   getFileType,
   getIcon,
   getUrlHash,
+  getUrlPath,
   isFolder
 } from "./helpers"
 import iconLost from "./images/icon-lost.svg?raw"
@@ -41,7 +42,7 @@ function createTableFiles([accum], el) {
       "a",
       formatTableItem(el, type),
       {
-        href: `/#/${el.path}`,
+        href: `${getUrlPath()}#/${el.path}`,
         ...(((isFolder(el) && ind !== 0) || isFolder(el) === false) && {
           tabindex: -1
         }),

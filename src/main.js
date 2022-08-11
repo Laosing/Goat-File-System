@@ -8,8 +8,11 @@ import {
 } from "./sidebar"
 import { renderFolderView } from "./table"
 
+import treeBackup from "./tree.json"
+
 fetch("/api/v1/goat")
   .then((res) => res.json())
+  .catch(() => treeBackup)
   .then(renderApp)
 
 function renderApp(tree) {

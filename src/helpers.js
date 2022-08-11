@@ -7,6 +7,10 @@ export function getUrlHash(url) {
   return (url || window.location.hash).split("#/").at(1)?.split("?").at(0) || ""
 }
 
+export function getUrlPath() {
+  return `${window.location.origin}${window.location.pathname}`
+}
+
 export function createElement(
   tag = "div",
   content = "",

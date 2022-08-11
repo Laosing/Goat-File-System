@@ -7,7 +7,8 @@ import {
   clsx,
   toggleFolder,
   closeFolder,
-  openFolder
+  openFolder,
+  getUrlPath
 } from "./helpers"
 
 export function renderSidebarView(sidebar, tree) {
@@ -38,7 +39,7 @@ export function createSidebarView(tree, parentNode, parentPath = []) {
         "a",
         el.name,
         {
-          href: `/#/${path}`,
+          href: `${getUrlPath()}#/${path}`,
           class: clsx("menu__link", getUrlHash() === path && "active"),
           role: "treeitem",
           ...linkAttributes
@@ -95,7 +96,7 @@ export function updateActiveMenu(sidebar) {
     .querySelectorAll(".menu__link")
     .forEach((el) => el.classList.remove("active"))
 
-  const el = sidebar.querySelector(`[href='/#/${getUrlHash()}'`)
+  const el = sidebar.querySelector(`[href='${getUrlPath()}#/${getUrlHash()}'`)
   if (el) {
     el.classList.add("active")
     openFolder(el.closest(".menu__link"))
