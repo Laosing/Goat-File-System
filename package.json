@@ -10,6 +10,8 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/eslint-parser": "^7.18.9",
     "eslint": "^8.21.0",
     "eslint-config-alloy": "^4.6.2",
     "express": "^4.18.1",
